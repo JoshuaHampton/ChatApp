@@ -1,6 +1,8 @@
 import Grid from "@mui/material/Grid";
 
-function ImageGen(height, xs=false, sm=8, md=7){
+function ImageGen(height){
+    let xs=false,sm=8,md=7;
+
     let img = {};
     img.url = "https://source.unsplash.com/random?wallpapers";
     img.src = "url("+img.url+")";
