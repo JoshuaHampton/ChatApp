@@ -8,12 +8,34 @@ import {
   Typography,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+
+const gem_api_key =  import.meta.env.VITE_GEMINI_KEY;
+const genAI  = new GoogleGenerativeAI(gem_api_key);  
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
 
 function Chat() {
+
   const [title, setTitle] = useState("Hello World");
   const [count, setCount] = useState(0);
   const [prompt, setPrompt] = useState("");
   const [input, setInput] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  const [apiData, setApiData] = useState([]);
+
+
+  async function sendPrompt() {
+    let curr_prompt = prompt;
+    setLoading(true);
+    setInput(curr_prompt);
+    let result = await model.generateContent(curr_prompt);
+    setApiData = await apiData.response;
+    const text = response.text();
+    setInput(result);
+    setLoading(false);
+  }
 
   return (
     <>
@@ -48,6 +70,7 @@ function Chat() {
                   setCount((count) => count + 1);
                   setPrompt(input);
                   setInput("");
+                  sendPrompt();
                 }
               }}
             />
@@ -59,6 +82,7 @@ function Chat() {
                 setCount((count) => count + 1);
                 setPrompt(input);
                 setInput("");
+                sendPrompt();
               }}
             >
               <SendIcon />
